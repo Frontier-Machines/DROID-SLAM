@@ -85,6 +85,7 @@ if __name__ == '__main__':
     parser.add_argument("--stride", default=3, type=int, help="frame stride")
 
     parser.add_argument("--weights", default="droid.pth")
+    parser.add_argument("--device", default="cuda:0")
     parser.add_argument("--buffer", type=int, default=512)
     parser.add_argument("--image_size", default=[240, 320])
     parser.add_argument("--disable_vis", action="store_true")

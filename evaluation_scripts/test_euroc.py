@@ -23,7 +23,7 @@ def show_image(image):
     cv2.imshow('image', image / 255.0)
     cv2.waitKey(1)
 
-def image_stream(datapath, image_size=[320, 512], stereo=False, stride=1):
+def image_stream(datapath, image_size=[320, 512], stereo=False, stride=1, device='cuda:0'):
     """ image generator """
 
     K_l = np.array([458.654, 0.0, 367.215, 0.0, 457.296, 248.375, 0.0, 0.0, 1.0]).reshape(3,3)
@@ -64,7 +64,7 @@ def image_stream(datapath, image_size=[320, 512], stereo=False, stride=1):
             images += [cv2.remap(cv2.imread(imgR), map_r[0], map_r[1], interpolation=cv2.INTER_LINEAR)]
         
         images = torch.from_numpy(np.stack(images, 0))
-        images = images.permute(0, 3, 1, 2).to("cuda:0", dtype=torch.float32)
+        images = images.permute(0, 3, 1, 2).to(device, dtype=torch.float32)
         images = F.interpolate(images, image_size, mode="bilinear", align_corners=False)
         
         intrinsics = torch.as_tensor(intrinsics_vec).cuda()
